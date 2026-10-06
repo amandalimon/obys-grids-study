@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 const texGyreHeros = localFont({
   src: "./fonts/texgyreheros-regular.otf",
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${texGyreHeros.variable} antialiased`}>
       <body>
+        <SiteHeader />
         {children}
       </body>
     </html>
