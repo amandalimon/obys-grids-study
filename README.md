@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Obys Grids Study
 
-## Getting Started
+![Status: work in progress](https://img.shields.io/badge/status-work%20in%20progress-orange)
 
-First, run the development server:
+An independent front-end recreation of [Grids](https://grids.obys.agency/) by [Obys Agency](https://obys.agency/), rebuilt with Next.js and GSAP as a practice project.
+
+The original site is built with Readymag. This project rebuilds its layout and interactions by hand, using the original's measurements and animation data as reference, with the goal of matching it as closely as possible.
+
+> Not affiliated with Obys Agency. The design and concept belong to them; this repository is for learning purposes only.
+
+## Stack
+
+- [Next.js 16](https://nextjs.org) (App Router) and React 19
+- [Tailwind CSS 4](https://tailwindcss.com)
+- [GSAP 3](https://gsap.com) with ScrollTrigger and `@gsap/react`
+
+## Getting started
+
+Requires Node.js 20 or newer.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Other scripts:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npx prettier --write .
+```
 
-## Learn More
+## Credits
 
-To learn more about Next.js, take a look at the following resources:
+The original concept, visual design, art direction, copy and interaction design belong to [Obys Agency](https://obys.agency/) — see the original at [grids.obys.agency](https://grids.obys.agency/). This repository is an independent technical recreation made for learning purposes. It is not an official Obys Agency project, is not affiliated with or endorsed by them, and claims no ownership of the original work.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Font: TeX Gyre Heros by GUST e-foundry, distributed under the [GUST Font License](src/app/fonts/GUST-FONT-LICENSE.txt).
