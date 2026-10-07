@@ -3,7 +3,7 @@
 :root {
   --bg: #f1f1f1;
   --fg: #0a0a0a;
-  --u: calc(100vw / 1024);
+  --u: calc(100cqw / 1024);
   --line: 2px;
 }
 
@@ -30,6 +30,7 @@
 }
 
 body {
+  container-type: inline-size;
   background: var(--bg);
   color: var(--fg);
 }

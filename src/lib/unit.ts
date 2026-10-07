@@ -1,1 +1,1 @@
-export const unit = () => window.innerWidth / 1024
+export const unit = () => document.documentElement.clientWidth / 1024
