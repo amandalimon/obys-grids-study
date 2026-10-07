@@ -1,11 +1,9 @@
-import { GridLines } from "@/components/grid-lines"
+import { Intro } from "@/components/intro/intro"
 
 export default function Home() {
   return (
     <main>
-      <section id="intro">
-        <GridLines />
-      </section>
+      <Intro />
     </main>
   )
 }
