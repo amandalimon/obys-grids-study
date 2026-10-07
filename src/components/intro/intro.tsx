@@ -1,3 +1,4 @@
+import { IntroDescription } from "@/components/intro/intro-description"
 import { IntroGridLines } from "@/components/intro/intro-grid-lines"
 
 export function Intro() {
@@ -5,6 +6,7 @@ export function Intro() {
     <section id="intro" className="relative h-[calc(6901*var(--u))]">
       <div className="sticky top-0 h-svh overflow-hidden">
         <IntroGridLines />
+        <IntroDescription />
       </div>
     </section>
   )

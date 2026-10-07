@@ -21,6 +21,9 @@
   --text-ui: max(10px, calc(10 * var(--u)));
   --text-ui--line-height: 1.7;
   --text-ui--letter-spacing: -0.01em;
+  --text-lead: max(14px, calc(14 * var(--u)));
+  --text-lead--line-height: 1.143;
+  --text-lead--letter-spacing: -0.007em;
   --spacing-header: round(max(38px, calc(38 * var(--u))), 1px);
   --spacing-margin: calc(32 * var(--u));
   --spacing-gutter: calc(10.29 * var(--u));
