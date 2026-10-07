@@ -1,22 +1,26 @@
-"use client";
-import { useState } from "react";
+"use client"
+import { useState } from "react"
+
 const links = [
   { label: "Intro", target: "#intro" },
   { label: "Grids", target: "#types" },
-  { label: "Books", target: "#books" },
-];
+  { label: "Books", target: "#books" }
+]
+
 const scrollToSection = (target: string) =>
-  document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
+  document.querySelector(target)?.scrollIntoView({ behavior: "smooth" })
+
 export function SiteHeader() {
-  const [grid, setGrid] = useState(false);
-  const [crazy, setCrazy] = useState(false);
+  const [grid, setGrid] = useState(false)
+  const [crazy, setCrazy] = useState(false)
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 grid h-header grid-cols-8 items-start gap-x-gutter px-margin pt-[calc(16*var(--u))] text-ui text-white mix-blend-difference">
         <button
           type="button"
           onClick={() => scrollToSection("#intro")}
-          className="flex items-baseline gap-1 justify-self-start transition-opacity hover:opacity-70 [-webkit-text-stroke:0.3px_currentColor]"
+          className="flex items-baseline gap-1 justify-self-start transition-opacity [-webkit-text-stroke:0.3px_currentColor] hover:opacity-70"
         >
           <span className="size-[calc(8*var(--u))] bg-current" />
           GRIDS
@@ -61,18 +65,18 @@ export function SiteHeader() {
         </div>
       )}
     </>
-  );
+  )
 }
 function Switch({
   label,
   value,
   onChange,
-  className,
+  className
 }: {
-  label: string;
-  value: boolean;
-  onChange: (value: boolean) => void;
-  className?: string;
+  label: string
+  value: boolean
+  onChange: (value: boolean) => void
+  className?: string
 }) {
   return (
     <div
@@ -92,16 +96,17 @@ function Switch({
         />
       </div>
     </div>
-  );
+  )
 }
+
 function SwitchOption({
   label,
   active,
-  onClick,
+  onClick
 }: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
+  label: string
+  active: boolean
+  onClick: () => void
 }) {
   return (
     <button
@@ -112,5 +117,5 @@ function SwitchOption({
     >
       {label}
     </button>
-  );
+  )
 }
