@@ -20,6 +20,7 @@ const scrollToSection = (target: string) =>
 export function SiteHeader() {
   const [grid, setGrid] = useState(false)
   const [crazy, setCrazy] = useState(false)
+  const header = useRef<HTMLElement>(null)
   const progress = useRef<HTMLSpanElement>(null)
 
   useGSAP(() => {
@@ -29,16 +30,24 @@ export function SiteHeader() {
     progressSteps.forEach((scaleX, i) => {
       timeline.to(progress.current, { scaleX }, i === 0 ? 0 : "+=0.4")
     })
-    timeline.call(
-      () => document.documentElement.removeAttribute("data-loading"),
-      undefined,
-      4
-    )
+    timeline
+      .call(
+        () => document.documentElement.removeAttribute("data-loading"),
+        undefined,
+        4
+      )
+      .fromTo(header.current, { "--reveal": 0 }, { "--reveal": 37 }, 4)
   })
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 grid h-header grid-cols-8 items-start gap-x-gutter px-margin pt-[calc(16*var(--u))] text-ui text-white mix-blend-difference">
+      <header
+        ref={header}
+        className="fixed inset-x-0 top-0 z-50 grid h-header grid-cols-8 items-start gap-x-gutter px-margin pt-[calc(16*var(--u))] text-ui text-white mix-blend-difference"
+        style={{
+          clipPath: "inset(calc((36 - var(--reveal, 0)) * var(--u)) 0 0 0)"
+        }}
+      >
         <button
           type="button"
           onClick={() => scrollToSection("#intro")}
@@ -72,7 +81,7 @@ export function SiteHeader() {
           className="col-span-2 col-start-6"
         />
         <span className="col-start-8 hidden justify-self-end whitespace-nowrap sm:block">
-          GSAP Practice ©2026
+          Study after Obys / 2026
         </span>
         <span
           data-progress

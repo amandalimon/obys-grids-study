@@ -44,6 +44,10 @@ body {
   color: var(--fg);
 }
 
+@utility reveal-up {
+  clip-path: inset(calc(100% - var(--reveal, 0) * var(--u)) 0 0 0);
+}
+
 [data-loading] main,
 [data-loading] header > :not([data-progress]) {
   visibility: hidden;
