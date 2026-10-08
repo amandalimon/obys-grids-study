@@ -24,12 +24,16 @@ export function SiteHeader() {
 
   useGSAP(() => {
     const timeline = gsap.timeline({
-      defaults: { duration: 1.2, ease: easeOut },
-      onComplete: () => document.documentElement.removeAttribute("data-loading")
+      defaults: { duration: 1.2, ease: easeOut }
     })
     progressSteps.forEach((scaleX, i) => {
       timeline.to(progress.current, { scaleX }, i === 0 ? 0 : "+=0.4")
     })
+    timeline.call(
+      () => document.documentElement.removeAttribute("data-loading"),
+      undefined,
+      4
+    )
   })
 
   return (
