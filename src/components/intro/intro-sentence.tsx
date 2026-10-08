@@ -6,17 +6,20 @@ import { addSteps, scrollTimeline, type ScrollStep } from "@/lib/readymag"
 
 gsap.registerPlugin(useGSAP)
 
-const boxCenterX = 398.5
-
-const are = { left: 1441.5 }
-const areSteps: ScrollStep[] = [{ dx: -2000 }]
-
-const just: {
+type Letter = {
   char: string
   left: number
   bottom: number
   steps: ScrollStep[]
-}[] = [
+}
+
+const justPivotX = 398.5
+const powerfulPivotX = 108
+
+const are = { left: 1441.5 }
+const areSteps: ScrollStep[] = [{ dx: -2000 }]
+
+const just: Letter[] = [
   {
     char: "J",
     left: 2363.5,
@@ -55,6 +58,81 @@ const just: {
   }
 ]
 
+const powerful: Letter[] = [
+  {
+    char: "P",
+    left: 5435,
+    bottom: 21,
+    steps: [
+      { dx: -5183, dy: 0 },
+      { dx: -5391, dy: -655, rotate: -180, ease: "out" }
+    ]
+  },
+  {
+    char: "O",
+    left: 5591,
+    bottom: 22,
+    steps: [
+      { dx: -5331, dy: 1 },
+      { dx: -5418, dy: 343, rotate: 180, ease: "out" }
+    ]
+  },
+  {
+    char: "W",
+    left: 5786,
+    bottom: 20,
+    steps: [
+      { dx: -5494, dy: 0 },
+      { dx: -5631, dy: -655, rotate: -180, ease: "out" }
+    ]
+  },
+  {
+    char: "E",
+    left: 6013,
+    bottom: 20,
+    steps: [
+      { dx: -5641, dy: 0 },
+      { dx: -5708, dy: 500, rotate: 180, ease: "out" }
+    ]
+  },
+  {
+    char: "R",
+    left: 6172,
+    bottom: 21,
+    steps: [
+      { dx: -5710, dy: 0 },
+      { dx: -5811, dy: -651, rotate: -180, ease: "out" }
+    ]
+  },
+  {
+    char: "F",
+    left: 6338,
+    bottom: 20,
+    steps: [
+      { dx: -5806, dy: 0 },
+      { dx: -5818, dy: 501, rotate: 180, ease: "out" }
+    ]
+  },
+  {
+    char: "U",
+    left: 6481,
+    bottom: 20,
+    steps: [
+      { dx: -5856, dy: 0 },
+      { dx: -5979, dy: -652, rotate: -180, ease: "out" }
+    ]
+  },
+  {
+    char: "L",
+    left: 6659,
+    bottom: 20,
+    steps: [
+      { dx: -5948, dy: 0 },
+      { dx: -5996, dy: 501, rotate: 180, ease: "out" }
+    ]
+  }
+]
+
 const tools = { left: 4108.5, bottom: 21 }
 const toolsSteps: ScrollStep[] = [{ dx: -5000 }]
 
@@ -82,6 +160,11 @@ export function IntroSentence() {
       })
       addSteps(scroll, toolsWord.current, toolsSteps)
       addSteps(scroll, phraseText.current, phraseSteps)
+      gsap.utils
+        .toArray<HTMLElement>("[data-powerful]")
+        .forEach((letter, i) => {
+          addSteps(scroll, letter, powerful[i].steps)
+        })
       gsap.utils.toArray<HTMLElement>("[data-dash]").forEach((dash, i) => {
         addSteps(scroll, dash, dashes[i].steps)
       })
@@ -106,7 +189,7 @@ export function IntroSentence() {
           style={{
             left: `calc(${letter.left} * var(--u))`,
             bottom: `calc(${letter.bottom} * var(--u))`,
-            transformOrigin: `calc(${boxCenterX} * var(--u)) 50%`
+            transformOrigin: `calc(${justPivotX} * var(--u)) 50%`
           }}
         >
           {letter.char}
@@ -132,6 +215,20 @@ export function IntroSentence() {
       >
         {"... but\n     these tools\nare..."}
       </p>
+      {powerful.map((letter) => (
+        <span
+          key={letter.char}
+          data-powerful
+          className="absolute text-display"
+          style={{
+            left: `calc(${letter.left} * var(--u))`,
+            bottom: `calc(${letter.bottom} * var(--u))`,
+            transformOrigin: `calc(${powerfulPivotX} * var(--u)) 50%`
+          }}
+        >
+          {letter.char}
+        </span>
+      ))}
       {dashes.map((dash) => (
         <div
           key={dash.left}
