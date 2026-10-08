@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { Analytics } from "@vercel/analytics/next"
+import { Loader } from "@/components/loader"
 import { SiteHeader } from "@/components/site-header"
 import "./globals.css"
 const texGyreHeros = localFont({
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body>
         <SiteHeader />
+        <Loader />
         {children}
         <Analytics />
       </body>
