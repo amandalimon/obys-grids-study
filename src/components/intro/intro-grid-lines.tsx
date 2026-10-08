@@ -1,5 +1,5 @@
 "use client"
-import { useRef } from "react"
+import { Fragment, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
@@ -45,19 +45,23 @@ export function IntroGridLines() {
         .to(mask.current, { y: -1200 * unit(), duration: 2.6 }, 4.2)
         .set(mask.current, { autoAlpha: 0 })
 
-      gsap.utils.toArray<HTMLElement>("[data-group]").forEach((group, i) => {
-        const distance = () => groups[i].distance * unit()
-        gsap.to(group, {
-          x: () => -distance(),
+      const scrollLeft = (target: Element, distance: number, delay: number) =>
+        gsap.to(target, {
+          x: () => -distance * unit(),
           ease: "none",
           scrollTrigger: {
             trigger: root.current?.closest("section"),
-            start: "top top",
-            end: () => `+=${distance()}`,
+            start: () => `top top-=${delay * unit()}`,
+            end: () => `+=${distance * unit()}`,
             scrub: true,
             invalidateOnRefresh: true
           }
         })
+      const lineLayers = gsap.utils.toArray<HTMLElement>("[data-lines]")
+      const labelLayers = gsap.utils.toArray<HTMLElement>("[data-labels]")
+      groups.forEach((group, i) => {
+        scrollLeft(lineLayers[i], group.distance, 10)
+        scrollLeft(labelLayers[i], group.distance, 0)
       })
     },
     { scope: root }
@@ -76,35 +80,35 @@ export function IntroGridLines() {
     >
       <div className="absolute inset-x-0 top-header bottom-(--rule) overflow-hidden">
         {groups.map((group) => (
-          <div
-            key={group.distance}
-            data-group
-            className="pointer-events-none absolute inset-0"
-          >
-            {group.lines.map((left) => (
-              <span
-                key={left}
-                className="pointer-events-auto absolute inset-y-0 w-[calc(5*var(--u))]"
-                onMouseEnter={(event) =>
-                  bounce(event.currentTarget.firstElementChild)
-                }
-                style={{
-                  left: `calc(round(calc(${left} * var(--u)), 1px) - 2.5 * var(--u))`
-                }}
-              >
-                <span className="absolute top-[calc(-30*var(--u))] bottom-0 left-[calc(2.5*var(--u))] w-(--line) bg-fg" />
-              </span>
-            ))}
-            {group.labels.map((label) => (
-              <span
-                key={label.text}
-                className="absolute bottom-[calc(10.5*var(--u))] ml-[calc(-6*var(--u))] rotate-180 text-ui leading-none whitespace-nowrap [writing-mode:vertical-rl]"
-                style={{ left: `calc(${label.left} * var(--u))` }}
-              >
-                {label.text}
-              </span>
-            ))}
-          </div>
+          <Fragment key={group.distance}>
+            <div data-lines className="pointer-events-none absolute inset-0">
+              {group.lines.map((left) => (
+                <span
+                  key={left}
+                  className="pointer-events-auto absolute inset-y-0 w-[calc(5*var(--u))]"
+                  onMouseEnter={(event) =>
+                    bounce(event.currentTarget.firstElementChild)
+                  }
+                  style={{
+                    left: `calc(round(calc(${left} * var(--u)), 1px) - 2.5 * var(--u))`
+                  }}
+                >
+                  <span className="absolute top-[calc(-30*var(--u))] bottom-0 left-[calc(2.5*var(--u))] w-(--line) bg-fg" />
+                </span>
+              ))}
+            </div>
+            <div data-labels className="pointer-events-none absolute inset-0">
+              {group.labels.map((label) => (
+                <span
+                  key={label.text}
+                  className="absolute bottom-[calc(10.5*var(--u))] rotate-180 text-ui whitespace-nowrap [writing-mode:vertical-rl]"
+                  style={{ left: `calc(${label.left} * var(--u))` }}
+                >
+                  {label.text}
+                </span>
+              ))}
+            </div>
+          </Fragment>
         ))}
         <div
           ref={mask}
