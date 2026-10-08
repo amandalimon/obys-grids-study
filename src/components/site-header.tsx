@@ -24,6 +24,9 @@ export function SiteHeader() {
   const progress = useRef<HTMLSpanElement>(null)
 
   useGSAP(() => {
+    history.scrollRestoration = "manual"
+    window.scrollTo(0, 0)
+
     const timeline = gsap.timeline({
       defaults: { duration: 1.2, ease: easeOut }
     })
@@ -41,6 +44,10 @@ export function SiteHeader() {
 
   return (
     <>
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 top-0 z-30 h-header bg-bg"
+      />
       <header
         ref={header}
         className="fixed inset-x-0 top-0 z-50 grid h-header grid-cols-8 items-start gap-x-gutter px-margin pt-[calc(16*var(--u))] text-ui text-white mix-blend-difference"

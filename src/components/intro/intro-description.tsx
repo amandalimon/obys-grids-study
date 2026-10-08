@@ -9,6 +9,7 @@ import { unit } from "@/lib/unit"
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 const scrollDistance = 500
+const scrollDelay = 10
 
 export function IntroDescription() {
   const root = useRef<HTMLDivElement>(null)
@@ -36,7 +37,7 @@ export function IntroDescription() {
       ease: "none",
       scrollTrigger: {
         trigger: root.current?.closest("section"),
-        start: "top top",
+        start: () => `top top-=${scrollDelay * unit()}`,
         end: () => `+=${distance()}`,
         scrub: true,
         invalidateOnRefresh: true
