@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { Analytics } from "@vercel/analytics/next"
+import { Loader } from "@/components/loader"
 import { SiteHeader } from "@/components/site-header"
 import "./globals.css"
 const texGyreHeros = localFont({
@@ -19,9 +20,14 @@ export const metadata: Metadata = {
 }
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${texGyreHeros.variable} antialiased`}>
+    <html
+      lang="en"
+      data-loading
+      className={`${texGyreHeros.variable} antialiased`}
+    >
       <body>
         <SiteHeader />
+        <Loader />
         {children}
         <Analytics />
       </body>

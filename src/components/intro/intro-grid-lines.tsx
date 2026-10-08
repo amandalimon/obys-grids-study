@@ -3,6 +3,7 @@ import { useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
+import { easeOut } from "@/lib/eases"
 import { unit } from "@/lib/unit"
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
@@ -34,8 +35,16 @@ const groups = [
 
 export function IntroGridLines() {
   const root = useRef<HTMLDivElement>(null)
+  const mask = useRef<HTMLDivElement>(null)
+  const rule = useRef<HTMLSpanElement>(null)
   const { contextSafe } = useGSAP(
     () => {
+      gsap
+        .timeline({ defaults: { ease: easeOut } })
+        .to(rule.current, { opacity: 1, duration: 0.6 }, 4)
+        .to(mask.current, { y: -1200 * unit(), duration: 2.6 }, 4.2)
+        .set(mask.current, { autoAlpha: 0 })
+
       gsap.utils.toArray<HTMLElement>("[data-group]").forEach((group, i) => {
         const distance = () => groups[i].distance * unit()
         gsap.to(group, {
@@ -97,8 +106,15 @@ export function IntroGridLines() {
             ))}
           </div>
         ))}
+        <div
+          ref={mask}
+          className="pointer-events-none absolute inset-0 bg-bg"
+        />
       </div>
-      <span className="absolute inset-x-margin bottom-(--rule) h-(--line) bg-fg" />
+      <span
+        ref={rule}
+        className="absolute inset-x-margin bottom-(--rule) h-(--line) bg-fg opacity-0"
+      />
     </div>
   )
 }
