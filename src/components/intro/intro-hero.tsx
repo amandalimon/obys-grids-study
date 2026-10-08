@@ -1,12 +1,12 @@
 "use client"
 import { useRef } from "react"
 import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
 import { easeOut } from "@/lib/eases"
+import { addSteps, scrollTimeline, type ScrollStep } from "@/lib/readymag"
 import { unit } from "@/lib/unit"
 
-gsap.registerPlugin(useGSAP, ScrollTrigger)
+gsap.registerPlugin(useGSAP)
 
 const letters = [
   { char: "G", left: 245.5, fallDelay: 330 },
@@ -18,18 +18,14 @@ const letters = [
 
 const letterPivotX = 398.5
 const letterLoadOffset = 224
-const fall = { x: -40, y: 300, rotation: -7 }
-const fallDuration = Math.ceil(Math.hypot(fall.x, fall.y))
+const letterFall: ScrollStep = { dx: -40, dy: 300, rotate: -7, ease: "in" }
 
-const squareCycle = {
-  delay: 1174,
-  keyframes: [
-    { x: 70, y: -241, rotation: 90, ease: "power1.out" },
-    { x: 202, y: -241 },
-    { x: 302, y: 0, rotation: 180, ease: "power1.in" },
-    { x: 0, y: 0 }
-  ]
-}
+const squareSteps: ScrollStep[] = [
+  { delay: 1174, dx: 70, dy: -241, rotate: 90, ease: "out" },
+  { dx: 202, dy: -241 },
+  { dx: 302, dy: 0, rotate: 180, ease: "in" },
+  { dx: 0, dy: 0 }
+]
 
 const square = { size: 191, centerX: 127.5, centerY: 115.5 }
 const loaderSquare = { size: 95, centerX: 512, centerY: 277.5 }
@@ -59,46 +55,15 @@ export function IntroHero() {
           "+=0.4"
         )
 
-      const scroll = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: root.current?.closest("section"),
-          start: "top top",
-          end: (self) => `+=${(self.animation?.duration() ?? 0) * unit()}`,
-          scrub: true,
-          invalidateOnRefresh: true
-        }
-      })
+      const scroll = scrollTimeline(root.current?.closest("section") ?? null)
       gsap.utils
         .toArray<HTMLElement>("[data-letter-scroll]")
         .forEach((letter, i) => {
-          scroll.to(
-            letter,
-            {
-              x: () => fall.x * unit(),
-              y: () => fall.y * unit(),
-              rotation: fall.rotation,
-              duration: fallDuration,
-              ease: "power1.in"
-            },
-            letters[i].fallDelay
-          )
+          addSteps(scroll, letter, [
+            { ...letterFall, delay: letters[i].fallDelay }
+          ])
         })
-
-      let previous = { x: 0, y: 0 }
-      squareCycle.keyframes.forEach(({ x, y, ...rest }, i) => {
-        scroll.to(
-          squareScroll.current,
-          {
-            x: () => x * unit(),
-            y: () => y * unit(),
-            duration: Math.ceil(Math.hypot(x - previous.x, y - previous.y)),
-            ...rest
-          },
-          i === 0 ? squareCycle.delay : undefined
-        )
-        previous = { x, y }
-      })
+      addSteps(scroll, squareScroll.current, squareSteps)
 
       gsap.fromTo(
         "[data-letter]",

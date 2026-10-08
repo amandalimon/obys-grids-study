@@ -1,13 +1,13 @@
 "use client"
 import { useRef } from "react"
 import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
-import { unit } from "@/lib/unit"
+import { addSteps, scrollTimeline, type ScrollStep } from "@/lib/readymag"
 
-gsap.registerPlugin(useGSAP, ScrollTrigger)
+gsap.registerPlugin(useGSAP)
 
-const are = { left: 1441.5, distance: 2000 }
+const are = { left: 1441.5 }
+const areSteps: ScrollStep[] = [{ dx: -2000 }]
 
 export function IntroSentence() {
   const root = useRef<HTMLDivElement>(null)
@@ -15,22 +15,8 @@ export function IntroSentence() {
 
   useGSAP(
     () => {
-      gsap
-        .timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: {
-            trigger: root.current?.closest("section"),
-            start: "top top",
-            end: (self) => `+=${(self.animation?.duration() ?? 0) * unit()}`,
-            scrub: true,
-            invalidateOnRefresh: true
-          }
-        })
-        .to(
-          areWord.current,
-          { x: () => -are.distance * unit(), duration: are.distance },
-          0
-        )
+      const scroll = scrollTimeline(root.current?.closest("section") ?? null)
+      addSteps(scroll, areWord.current, areSteps)
     },
     { scope: root }
   )
