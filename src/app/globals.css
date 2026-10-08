@@ -44,6 +44,11 @@ body {
   color: var(--fg);
 }
 
+[data-loading] main,
+[data-loading] header > :not([data-progress]) {
+  visibility: hidden;
+}
+
 button:not(:disabled),
 [role="button"] {
   cursor: pointer;

@@ -24,7 +24,8 @@ export function SiteHeader() {
 
   useGSAP(() => {
     const timeline = gsap.timeline({
-      defaults: { duration: 1.2, ease: easeOut }
+      defaults: { duration: 1.2, ease: easeOut },
+      onComplete: () => document.documentElement.removeAttribute("data-loading")
     })
     progressSteps.forEach((scaleX, i) => {
       timeline.to(progress.current, { scaleX }, i === 0 ? 0 : "+=0.4")
@@ -69,9 +70,13 @@ export function SiteHeader() {
         <span className="col-start-8 hidden justify-self-end whitespace-nowrap sm:block">
           GSAP Practice ©2026
         </span>
-        <span className="absolute inset-x-margin bottom-0 h-px bg-current" />
+        <span
+          data-progress
+          className="absolute inset-x-margin bottom-0 h-px bg-current"
+        />
         <span
           ref={progress}
+          data-progress
           className="absolute inset-x-margin bottom-0 h-(--line) origin-left bg-current"
           style={{ transform: "scaleX(0)" }}
         />
