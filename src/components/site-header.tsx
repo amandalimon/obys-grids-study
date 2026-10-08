@@ -1,5 +1,10 @@
 "use client"
-import { useState } from "react"
+import { useRef, useState } from "react"
+import gsap from "gsap"
+import { useGSAP } from "@gsap/react"
+import { easeOut } from "@/lib/eases"
+
+gsap.registerPlugin(useGSAP)
 
 const links = [
   { label: "Intro", target: "#intro" },
@@ -7,12 +12,24 @@ const links = [
   { label: "Books", target: "#books" }
 ]
 
+const progressSteps = [243 / 960, 613 / 960, 1]
+
 const scrollToSection = (target: string) =>
   document.querySelector(target)?.scrollIntoView({ behavior: "smooth" })
 
 export function SiteHeader() {
   const [grid, setGrid] = useState(false)
   const [crazy, setCrazy] = useState(false)
+  const progress = useRef<HTMLSpanElement>(null)
+
+  useGSAP(() => {
+    const timeline = gsap.timeline({
+      defaults: { duration: 1.2, ease: easeOut }
+    })
+    progressSteps.forEach((scaleX, i) => {
+      timeline.to(progress.current, { scaleX }, i === 0 ? 0 : "+=0.4")
+    })
+  })
 
   return (
     <>
@@ -52,7 +69,12 @@ export function SiteHeader() {
         <span className="col-start-8 hidden justify-self-end whitespace-nowrap sm:block">
           GSAP Practice ©2026
         </span>
-        <span className="absolute inset-x-margin bottom-0 h-(--line) bg-current" />
+        <span className="absolute inset-x-margin bottom-0 h-px bg-current" />
+        <span
+          ref={progress}
+          className="absolute inset-x-margin bottom-0 h-(--line) origin-left bg-current"
+          style={{ transform: "scaleX(0)" }}
+        />
       </header>
       {grid && (
         <div
