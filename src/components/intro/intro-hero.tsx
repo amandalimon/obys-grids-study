@@ -3,6 +3,7 @@ import { useRef } from "react"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { easeOut } from "@/lib/eases"
+import { unit } from "@/lib/unit"
 
 gsap.registerPlugin(useGSAP)
 
@@ -14,38 +15,62 @@ const letters = [
   { char: "S", left: 833 }
 ]
 
+const letterPivotX = 398.5
+
 const square = { size: 191, centerX: 127.5, centerY: 115.5 }
 const loaderSquare = { size: 95, centerX: 512, centerY: 277.5 }
 
 export function IntroHero() {
+  const root = useRef<HTMLDivElement>(null)
   const squareLoad = useRef<HTMLDivElement>(null)
 
-  useGSAP(() => {
-    gsap
-      .timeline({ defaults: { duration: 1.2, ease: easeOut } })
-      .set(squareLoad.current, {
-        xPercent: ((loaderSquare.centerX - square.centerX) / square.size) * 100,
-        yPercent: ((square.centerY - loaderSquare.centerY) / square.size) * 100,
-        scale: loaderSquare.size / square.size,
-        visibility: "visible"
-      })
-      .to(squareLoad.current, { rotation: 180 })
-      .to(squareLoad.current, { rotation: 360 }, "+=0.4")
-      .to(
-        squareLoad.current,
-        { xPercent: 0, yPercent: 0, scale: 1, rotation: 540 },
-        "+=0.4"
+  useGSAP(
+    () => {
+      gsap
+        .timeline({ defaults: { duration: 1.2, ease: easeOut } })
+        .set(squareLoad.current, {
+          xPercent:
+            ((loaderSquare.centerX - square.centerX) / square.size) * 100,
+          yPercent:
+            ((square.centerY - loaderSquare.centerY) / square.size) * 100,
+          scale: loaderSquare.size / square.size,
+          visibility: "visible"
+        })
+        .to(squareLoad.current, { rotation: 180 })
+        .to(squareLoad.current, { rotation: 360 }, "+=0.4")
+        .to(
+          squareLoad.current,
+          { xPercent: 0, yPercent: 0, scale: 1, rotation: 540 },
+          "+=0.4"
+        )
+
+      gsap.fromTo(
+        "[data-letter]",
+        { y: 224 * unit(), rotation: -7, visibility: "visible" },
+        {
+          y: 0,
+          rotation: 0,
+          duration: 0.6,
+          ease: easeOut,
+          stagger: 0.1,
+          delay: 3.8
+        }
       )
-  })
+    },
+    { scope: root }
+  )
 
   return (
-    <div className="pointer-events-none absolute inset-0">
+    <div ref={root} className="pointer-events-none absolute inset-0">
       {letters.map((letter) => (
         <span
           key={letter.char}
           data-letter
           className="absolute bottom-[calc(20*var(--u))] text-display"
-          style={{ left: `calc(${letter.left} * var(--u))` }}
+          style={{
+            left: `calc(${letter.left} * var(--u))`,
+            transformOrigin: `calc(${letterPivotX} * var(--u)) 50%`
+          }}
         >
           {letter.char}
         </span>
