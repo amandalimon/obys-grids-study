@@ -24,6 +24,10 @@ const squareSteps: ScrollStep[] = [
   { delay: 1174, dx: 70, dy: -241, rotate: 90, ease: "out" },
   { dx: 202, dy: -241 },
   { dx: 302, dy: 0, rotate: 180, ease: "in" },
+  { dx: 0, dy: 0 },
+  { delay: 1730, dx: 50, dy: -241, rotate: 270, ease: "out" },
+  { dx: 332, dy: -241 },
+  { dx: 502, dy: 0, rotate: 360, ease: "in" },
   { dx: 0, dy: 0 }
 ]
 
