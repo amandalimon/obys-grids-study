@@ -33,6 +33,7 @@
 }
 
 html {
+  scrollbar-gutter: stable;
   cursor:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='9.5' fill='%23f1f1f1' stroke='%23000'/%3E%3C/svg%3E")
       10 10,
@@ -47,6 +48,10 @@ body {
 
 @utility reveal-up {
   clip-path: inset(calc(100% - var(--reveal, 0) * var(--u)) 0 0 0);
+}
+
+html[data-loading] {
+  overflow: hidden;
 }
 
 [data-loading] main,

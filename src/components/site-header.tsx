@@ -24,6 +24,9 @@ export function SiteHeader() {
   const progress = useRef<HTMLSpanElement>(null)
 
   useGSAP(() => {
+    history.scrollRestoration = "manual"
+    window.scrollTo(0, 0)
+
     const timeline = gsap.timeline({
       defaults: { duration: 1.2, ease: easeOut }
     })
