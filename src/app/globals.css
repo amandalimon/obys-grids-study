@@ -26,6 +26,7 @@
   --text-lead--letter-spacing: -0.007em;
   --text-display: calc(262 * var(--u));
   --text-display--line-height: 0.73;
+  --text-display--letter-spacing: calc(-10 * var(--u));
   --spacing-header: round(max(38px, calc(38 * var(--u))), 1px);
   --spacing-margin: calc(32 * var(--u));
   --spacing-gutter: calc(10.29 * var(--u));

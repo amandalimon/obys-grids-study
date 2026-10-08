@@ -1,6 +1,7 @@
 import { IntroDescription } from "@/components/intro/intro-description"
 import { IntroGridLines } from "@/components/intro/intro-grid-lines"
 import { IntroHero } from "@/components/intro/intro-hero"
+import { IntroSentence } from "@/components/intro/intro-sentence"
 
 export function Intro() {
   return (
@@ -8,6 +9,7 @@ export function Intro() {
       <div className="sticky top-0 h-svh overflow-hidden">
         <IntroGridLines />
         <IntroDescription />
+        <IntroSentence />
         <IntroHero />
       </div>
     </section>

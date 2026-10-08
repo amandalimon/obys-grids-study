@@ -21,12 +21,23 @@ const letterLoadOffset = 224
 const fall = { x: -40, y: 300, rotation: -7 }
 const fallDuration = Math.ceil(Math.hypot(fall.x, fall.y))
 
+const squareCycle = {
+  delay: 1174,
+  keyframes: [
+    { x: 70, y: -241, rotation: 90, ease: "power1.out" },
+    { x: 202, y: -241 },
+    { x: 302, y: 0, rotation: 180, ease: "power1.in" },
+    { x: 0, y: 0 }
+  ]
+}
+
 const square = { size: 191, centerX: 127.5, centerY: 115.5 }
 const loaderSquare = { size: 95, centerX: 512, centerY: 277.5 }
 
 export function IntroHero() {
   const root = useRef<HTMLDivElement>(null)
   const squareLoad = useRef<HTMLDivElement>(null)
+  const squareScroll = useRef<HTMLDivElement>(null)
 
   useGSAP(
     () => {
@@ -74,6 +85,21 @@ export function IntroHero() {
           )
         })
 
+      let previous = { x: 0, y: 0 }
+      squareCycle.keyframes.forEach(({ x, y, ...rest }, i) => {
+        scroll.to(
+          squareScroll.current,
+          {
+            x: () => x * unit(),
+            y: () => y * unit(),
+            duration: Math.ceil(Math.hypot(x - previous.x, y - previous.y)),
+            ...rest
+          },
+          i === 0 ? squareCycle.delay : undefined
+        )
+        previous = { x, y }
+      })
+
       gsap.fromTo(
         "[data-letter]",
         { y: 224 * unit(), rotation: -7, visibility: "visible" },
@@ -114,6 +140,7 @@ export function IntroHero() {
         </div>
       ))}
       <div
+        ref={squareScroll}
         data-square-scroll
         className="absolute bottom-[calc(20*var(--u))] left-margin size-[calc(191*var(--u))]"
       >
